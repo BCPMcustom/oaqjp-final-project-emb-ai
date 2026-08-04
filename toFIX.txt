@@ -21,3 +21,10 @@ server.py:28:27: C0321: More than one statement on a single line (multiple-state
 ------------------------------------------------------------------
 Your code has been rated at 0.00/10 (previous run: 0.00/10, +0.00)
 
+
+
+
+
+--------------------------------------------------------------------
+Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
+

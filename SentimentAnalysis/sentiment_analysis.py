@@ -1,11 +1,20 @@
-import requests # Import the requests library to handle HTTP requests                                                                                                    
-import json #Import json for exporting
+'''
+This module connects the server to the IBM API
+'''
+import json
+import requests
 
-def sentiment_analyzer(text_to_analyse): # Define a function named sentiment_analyzer that takes a string input (text_to_analyse)                                        
-    url = 'https://sn-watson-sentiment-bert.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/SentimentPredict' # URL of the sentiment analysis service            
-    myobj = { "raw_document": { "text": text_to_analyse } } # Create a dictionary with the text to be analyzed                                                           
-    header = {"grpc-metadata-mm-model-id": "sentiment_aggregated-bert-workflow_lang_multi_stock"} # Set the headers required for the API request                         
-    response = requests.post(url, json = myobj, headers=header) # Send a POST request to the API with the text and headers                                               
+
+def sentiment_analyzer(text_to_analyse):
+    '''
+    This function connects to the API and check the connection status
+    '''
+    url = 'https://sn-watson-sentiment-bert.labs.skills\
+    .network/v1/watson.runtime.nlp.v1/NlpService/SentimentPredict'
+    myobj = { "raw_document": { "text": text_to_analyse } }
+    header = {"grpc-metadata-mm-model-id": \
+    "sentiment_aggregated-bert-workflow_lang_multi_stock"}    
+    response = requests.post(url, json = myobj, headers=header, timeout=10)
 
 
     # If the response status code is 200, extract the label and score from the response
@@ -25,9 +34,3 @@ def sentiment_analyzer(text_to_analyse): # Define a function named sentiment_ana
 
     # Return the label and score in a dictionary
     return {'label': label, 'score': score}
-                                                                                                   
-
-
-                                                                                                       
-
-
