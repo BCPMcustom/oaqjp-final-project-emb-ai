@@ -17,18 +17,32 @@ def sentiment_analyzer(text_to_analyse):
 
     # If the response status code is 200, extract the label and score from the response
     if response.status_code == 200:
+        emotions_list = ['anger', 'disgust', 'fear', 'joy', 'sadness']
         # Parse the response from the API
         formatted_response = json.loads(response.text)
-        #label = formatted_response[][]
-        #score = formatted_response[][]
+        feels = formatted_response["emotionPredictions"][0]["emotion"]
+        extracted_emotions = {emo: feels[emo] for emo in emotions_list}
+        dominant_emotion = max(extracted_emotions, key=extracted_emotions.get)
+        # Add the dominant emotion straight into your dictionary
+        extracted_emotions['dominant_emotion'] = dominant_emotion
+        
+        return extracted_emotions
+        
     # If the response status code is 500, set label and score to None
     #elif response.status_code == 500:
         #label = None
         #score = None
     # For any other unexpected status codes, set label and score to None
     else:
-        label = None
-        score = None
+        # Return blank fields so the frontend doesn't crash on failure
+        return {
+            "anger": None,
+            "disgust": None,
+            "fear": None,
+            "joy": None,
+            "sadness": None,
+            "dominant_emotion": None
+        }
 
     # Return the label and score in a dictionary
-    return formatted_response
+    return dominant_emotion
