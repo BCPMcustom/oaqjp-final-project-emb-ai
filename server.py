@@ -4,9 +4,9 @@ Provides endpoints for web rendering and emotion analysis.
 """
 
 from flask import Flask, render_template, request
-from SentimentAnalysis.sentiment_analysis import sentiment_analyzer
+from EmotionDetection.emotion_detection import emotion_detector
 
-app = Flask("sentimentAnalyzer")
+app = Flask("emotionDetector")
 
 @app.route("/emotionDetector")
 def sent_analyzer():
@@ -17,18 +17,18 @@ def sent_analyzer():
     text_to_analyze = request.args.get('textToAnalyze')
 
     # Pass the text to the sentiment_analyzer function and store the response
-    response = sentiment_analyzer(text_to_analyze)
+    response = emotion_detector(text_to_analyze)
 
-    # Extract the label and score from the response
-    label = response['label']
-    score = response['score']
+    #Transform the dictionary into a printable list of pairs
+    # Create a list of string pairs, excluding the dominant emotion key
+    pairs = [f"'{key}': {val}" for key, val in response.items() if key != 'dominant_emotion']
 
-    # Return a formatted string with the sentiment label and score
-
-    if label is None:
-        return "Invalid Input!  Try Again."
-
-    return f"The given text has been identified as {label.split('_')[1]} with a score of {score}."
+    # Glue them together with a comma and space
+    clean_scores = ", ".join(pairs)
+        
+    #Return a formatted string with the response
+    output_text = f"For the given statement, the system response is {clean_scores}. The dominant emotion is <strong>{response['dominant_emotion']}</strong>."
+    return output_text
 
 
 @app.route("/")

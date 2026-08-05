@@ -5,7 +5,7 @@ import json
 import requests
 
 
-def sentiment_analyzer(text_to_analyse):
+def emotion_detector(text_to_analyse):
     '''
     This function connects to the API and check the connection status
     '''
