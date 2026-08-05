@@ -19,15 +19,21 @@ def sent_analyzer():
     # Pass the text to the sentiment_analyzer function and store the response
     response = emotion_detector(text_to_analyze)
 
+    if response['joy'] is None:
+        return "Invalid text! Please try again!"
+
     #Transform the dictionary into a printable list of pairs
     # Create a list of string pairs, excluding the dominant emotion key
     pairs = [f"'{key}': {val}" for key, val in response.items() if key != 'dominant_emotion']
 
     # Glue them together with a comma and space
     clean_scores = ", ".join(pairs)
-        
+
     #Return a formatted string with the response
-    output_text = f"For the given statement, the system response is {clean_scores}. The dominant emotion is <strong>{response['dominant_emotion']}</strong>."
+    output_text = (
+        f"For the given statement, the system response is {clean_scores}. "
+        f"The dominant emotion is <strong>{response['dominant_emotion']}</strong>."
+    )
     return output_text
 
 
